@@ -12,15 +12,23 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+import os
+import json
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# 카카오 로그인
+secret_file = os.path.join(BASE_DIR, "love_bridge/secrets.json")
+secrets = None
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-(g&w#+0w%0)%$d&3ho9gou%er8a)jm5+295c#wg87p=d@kexr6'
+SECRET_KEY = secrets['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,7 +46,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'posts',
+    'accounts',
+
+    # 카카오 로그인
+    'django.contrib.sites',
+    'rest_framework',
 ]
+
+# 카카오 로그인
+SOCIAL_OUTH_CONFIG = {
+    'KAKAO_REST_API_KEY': secrets['KAKAO_REST_API_KEY'],
+    'KAKAO_REDIRECT_URI': secrets['KAKAO_REDIRECT_URI'],
+    'KAKAO_SECRET_KEY': secrets['KAKAO_SECRET_KEY'],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
