@@ -8,21 +8,40 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 def home(request):
-    return render(request)
+    return render(request, 'index.html')
 
 def signup(request):
     if request.method == "POST":
         form = UserForm(request.POST)
         if form.is_valid():
             form.save()
-            user_id = form.cleaned_data.get('username')
+            username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=user_id, password=raw_password)
+            user = authenticate(username=username, password=raw_password)
             login(request, user) 
-            return redirect('index')
+            return redirect('index.html')
     else:
         form = UserForm()
     return render(request, 'signup.html', {'form': form})
+
+def login(request):
+    if request.method == 'POST' :
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+
+        if user is not None :
+            login(request, user)
+            print("로그인 성공")
+            return redirect('index.html')
+        else :
+            return render(request, 'form_errors.html')
+    else :   
+        return render(request, 'login.html')
+    
+def logout(request):
+    logout(request)
+    return redirect('home')
 
 @api_view(['GET'])
 @permission_classes([AllowAny, ])
