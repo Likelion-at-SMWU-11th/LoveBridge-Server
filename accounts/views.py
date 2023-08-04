@@ -1,4 +1,6 @@
 from django.shortcuts import render,  redirect
+from django.contrib.auth import authenticate, login
+from accounts.forms import UserForm
 import requests
 from love_bridge.settings import SOCIAL_OUTH_CONFIG
 from rest_framework.decorators import api_view, permission_classes
@@ -7,6 +9,20 @@ from rest_framework.response import Response
 
 def home(request):
     return render(request)
+
+def signup(request):
+    if request.method == "POST":
+        form = UserForm(request.POST)
+        if form.is_valid():
+            form.save()
+            user_id = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=user_id, password=raw_password)
+            login(request, user) 
+            return redirect('index')
+    else:
+        form = UserForm()
+    return render(request, 'signup.html', {'form': form})
 
 @api_view(['GET'])
 @permission_classes([AllowAny, ])
