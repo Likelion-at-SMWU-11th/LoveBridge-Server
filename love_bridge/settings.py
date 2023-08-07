@@ -53,11 +53,17 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 
-# 카카오 로그인
+# 소셜 로그인
 SOCIAL_OUTH_CONFIG = {
+    # 카카오 로그인
     'KAKAO_REST_API_KEY': secrets['KAKAO_REST_API_KEY'],
     'KAKAO_REDIRECT_URI': secrets['KAKAO_REDIRECT_URI'],
     'KAKAO_SECRET_KEY': secrets['KAKAO_SECRET_KEY'],
+
+    # 네이버 로그인
+    'NAVER_CLIENT_ID': secrets['NAVER_CLIENT_ID'],
+    'NAVER_REDIRECT_URI': secrets['NAVER_REDIRECT_URI'],
+    'NAVER_CLIENT_SECRET': secrets['NAVER_CLIENT_SECRET'],
 }
 
 MIDDLEWARE = [

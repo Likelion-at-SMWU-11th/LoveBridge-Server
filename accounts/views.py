@@ -43,9 +43,10 @@ def logout(request):
     logout(request)
     return redirect('home')
 
+# 카카오 로그인
 @api_view(['GET'])
 @permission_classes([AllowAny, ])
-def kakao_get_login(request):
+def get_kakao_login(request):
     CLIENT_ID = SOCIAL_OUTH_CONFIG['KAKAO_REST_API_KEY']
     REDIRECT_URL = SOCIAL_OUTH_CONFIG['KAKAO_REDIRECT_URI']
     url = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={0}&redirect_uri={1}".format(
@@ -53,10 +54,9 @@ def kakao_get_login(request):
     res = redirect(url)
     return res
 
-
 @api_view(['GET'])
 @permission_classes([AllowAny, ])
-def get_user_info(reqeust):
+def get_kakao_user_info(reqeust):
     CODE = reqeust.query_params['code']
     url = "https://kauth.kakao.com/oauth/token"
     res = {
@@ -76,6 +76,41 @@ def get_user_info(reqeust):
     HEADER = {
         "Authorization": auth,
         "Content-type": "application/x-www-form-urlencoded;charset=utf-8"
+    }
+    res = requests.get(user_url, headers=HEADER)
+    print(response.json())
+    return Response(res.text)
+
+
+# 네이버 로그인
+@api_view(['GET'])
+@permission_classes([AllowAny, ])
+def get_naver_login(request):
+    CLIENT_ID = SOCIAL_OUTH_CONFIG['NAVER_CLIENT_ID']
+    REDIRECT_URL = SOCIAL_OUTH_CONFIG['NAVER_REDIRECT_URI']
+    url = "https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id={0}&state=STATE_STRING&redirect_uri={1}".format(
+        CLIENT_ID, REDIRECT_URL)
+    res = redirect(url)
+    return res
+
+@api_view(['GET'])
+@permission_classes([AllowAny, ])
+def get_naver_user_info(reqeust):
+    CODE = reqeust.GET.get("code")
+    url = "https://nid.naver.com/oauth2.0/token"
+    res = {
+        'grant_type': 'authorization_code',
+        'client_id': SOCIAL_OUTH_CONFIG['NAVER_CLIENT_ID'],
+        'client_secret': SOCIAL_OUTH_CONFIG['NAVER_CLIENT_SECRET'],
+        'code': CODE,
+        'state': reqeust.GET.get("state")
+    }
+    response = requests.post(url, data=res)
+    token_json = response.json()
+    user_url = "https://openapi.naver.com/v1/nid/me"
+    auth = "Bearer " + token_json['access_token']
+    HEADER = {
+        "Authorization": auth,
     }
     res = requests.get(user_url, headers=HEADER)
     print(response.json())
