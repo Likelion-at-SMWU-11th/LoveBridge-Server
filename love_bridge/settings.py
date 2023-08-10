@@ -30,6 +30,7 @@ with open(secret_file) as f:
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = secrets['SECRET_KEY']
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -45,16 +46,24 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # 생성한 앱
     'posts',
     'accounts',
 
-    # 카카오 로그인
     'django.contrib.sites',
     'rest_framework',
-    
-    # 서류 등록
-    'documents',
+
+    # 소셜 로그인
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.kakao',
+    # 'allauth.socialaccount.providers.naver',
+    # 'allauth.socialaccount.providers.google',
 ]
+
+SITE_ID = 1
 
 # 소셜 로그인
 SOCIAL_OUTH_CONFIG = {
@@ -67,6 +76,11 @@ SOCIAL_OUTH_CONFIG = {
     'NAVER_CLIENT_ID': secrets['NAVER_CLIENT_ID'],
     'NAVER_REDIRECT_URI': secrets['NAVER_REDIRECT_URI'],
     'NAVER_CLIENT_SECRET': secrets['NAVER_CLIENT_SECRET'],
+
+    # 구글 로그인
+    'GOOGLE_CLIENT_ID': secrets['GOOGLE_CLIENT_ID'],
+    'GOOGLE_REDIRECT_URI': secrets['GOOGLE_REDIRECT_URI'],
+    'GOOGLE_CLIENT_SECRET': secrets['GOOGLE_CLIENT_SECRET'],
 }
 
 MIDDLEWARE = [
@@ -92,6 +106,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -138,11 +155,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
