@@ -14,7 +14,11 @@ class Command(BaseCommand):
                 image = fake.image_url(),
                 title = fake.word(),
                 district = fake.city(),
+<<<<<<< HEAD
                 ministry = fake.company(),
+=======
+                agency = fake.company(),
+>>>>>>> 8b5f1c46b14c66e8b3a76861d7f4f5777b30a6bb
                 deadline_yy = randint(2023, 2024),
                 deadline_mm = randint(1, 12),
                 deadline_dd = randint(1, 30),
