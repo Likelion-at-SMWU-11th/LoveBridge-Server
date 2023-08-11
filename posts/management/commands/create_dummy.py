@@ -14,7 +14,7 @@ class Command(BaseCommand):
                 image = fake.image_url(),
                 title = fake.word(),
                 district = fake.city(),
-                ministry = fake.company(),
+                agency = fake.company(),
                 deadline_yy = randint(2023, 2024),
                 deadline_mm = randint(1, 12),
                 deadline_dd = randint(1, 30),
