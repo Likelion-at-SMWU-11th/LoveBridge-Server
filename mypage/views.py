@@ -1,8 +1,12 @@
 from django.shortcuts import render, redirect
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
 from .forms import DocumentForm
 from .models import Document
-from .serializers import DocumentModelSerializer
+from posts.models import Program
+from .serializers import *
 
 def home(request):
     return render(request, 'index.html')
@@ -26,5 +30,9 @@ def documents(request):
         }
     return render(request, 'documents.html', context)
 
-def programs(request):
-    return render(request, 'programs.html')
+@api_view(['GET'])
+def get_like_programs(request):
+    if request.method == 'GET':
+        like = Program.objects.all().filter(iflike=True)
+        serializer = LikeSerializer(like, many=True)
+        return Response(serializer.data)
