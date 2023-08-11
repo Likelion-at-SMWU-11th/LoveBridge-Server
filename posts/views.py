@@ -17,14 +17,6 @@ def get_programs(request):
 
 
 @api_view(['GET'])
-def get_programs(request):
-    if request.method == 'GET':
-        programs = Program.objects.all()
-        serializer = ProgramSerializer(programs, many=True)
-        return Response(serializer.data)
-
-
-@api_view(['GET'])
 def get_popular(request):
     if request.method == 'GET':
         top10 = Program.objects.all().order_by('-like')[:10]
@@ -49,4 +41,5 @@ def get_imminent(request):
         imminent_programs.sort(key=lambda x: x['remaining_days'])
         top10 = imminent_programs[:10]
         serializer = RecommendSerializer([item['program'] for item in top10], many=True)
+
         return Response(serializer.data)
