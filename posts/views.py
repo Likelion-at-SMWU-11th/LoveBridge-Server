@@ -27,19 +27,6 @@ def get_popular(request):
 @api_view(['GET'])
 def get_imminent(request):
     if request.method == 'GET':
-        programs = Program.objects.all()
-        imminent_programs = []
-        for program in programs:
-            today = date.today()
-            deadline = date(program.deadline_yy, program.deadline_mm, program.deadline_dd)
-            remaining_days = (deadline - today).days
-            imminent_programs.append({
-                'program': program,
-                'remaining_days': remaining_days
-            })
-        
-        imminent_programs.sort(key=lambda x: x['remaining_days'])
-        top10 = imminent_programs[:10]
-        serializer = RecommendSerializer([item['program'] for item in top10], many=True)
-
+        top10 = Program.objects.order_by('deadline_yy', 'deadline_mm', 'deadline_dd')[:10]
+        serializer = RecommendSerializer(top10, many=True)
         return Response(serializer.data)
