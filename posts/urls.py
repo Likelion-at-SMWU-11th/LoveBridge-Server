@@ -6,6 +6,7 @@ from .views import *
 app_name = "posts"
 
 urlpatterns = [
+    path('programs/', get_programs, name="programs"),
     path('popular/', get_popular, name="popular"),
 ]
 
