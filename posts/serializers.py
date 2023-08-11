@@ -8,7 +8,7 @@ class ProgramSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class PopularSerializer(ModelSerializer):
+class RecommendSerializer(ModelSerializer):
     class Meta:
         model = Program
         fields = ['image', 'title', 'district']
