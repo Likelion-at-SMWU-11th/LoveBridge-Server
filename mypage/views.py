@@ -31,6 +31,13 @@ def documents(request):
     return render(request, 'documents.html', context)
 
 @api_view(['GET'])
+def get_my_programs(request):
+    if request.method == 'GET':
+        register = Program.objects.all().filter(ifregister=True)
+        serializer = LikeSerializer(register, many=True)
+        return Response(serializer.data)
+
+@api_view(['GET'])
 def get_like_programs(request):
     if request.method == 'GET':
         like = Program.objects.all().filter(iflike=True)
