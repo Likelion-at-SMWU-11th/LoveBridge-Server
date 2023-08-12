@@ -13,6 +13,7 @@ class Program(models.Model):
     phone = models.CharField(verbose_name="문의처", max_length=13)
     like = models.IntegerField(verbose_name="좋아요 개수", default=0)
     iflike = models.BooleanField(verbose_name="좋아요 여부", default=False)
+    ifregister = models.BooleanField(verbose_name="신청 여부", default=False)
     category = models.ManyToManyField('Category', verbose_name="카테고리", blank=True)
     
     def __str__(self):

@@ -11,5 +11,6 @@ router.register('mydocuments', DocumentModelViewSet)
 urlpatterns = [
     path('',include(router.urls)),
     path('documents/', views.documents, name='documents'),
+    path('myprograms/', views.get_my_programs, name='myprograms'),
     path('like/', views.get_like_programs, name='like'),
 ]
