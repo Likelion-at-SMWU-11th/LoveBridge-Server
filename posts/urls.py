@@ -7,6 +7,7 @@ app_name = "posts"
 
 urlpatterns = [
     path('programs/', get_programs, name="programs"),
+    path('programs/<int:pk>/', post_programs, name="registration"),
     path('popular/', get_popular, name="popular"),
     path('imminent/', get_imminent, name="imminent"),
 ]
