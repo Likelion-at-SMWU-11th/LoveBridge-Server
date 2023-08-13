@@ -1,13 +1,25 @@
 from rest_framework.serializers import ModelSerializer
 from .models import Document
-from posts.models import Program
+from programs.models import *
+from rest_framework import serializers
+
 
 class DocumentModelSerializer(ModelSerializer):
     class Meta:
-        model=Document
+        model = Document
         fields='__all__'
 
-class LikeSerializer(ModelSerializer):
+
+class MyProgramSerializer(ModelSerializer):
+    title = serializers.CharField(source='program.title', read_only=True)
+    district = serializers.CharField(source='program.district', read_only=True)
+
     class Meta:
-        model=Program
-        fields=['title', 'district', 'deadline_yy', 'deadline_mm', 'deadline_dd']
+        model = MyProgram
+        fields = [f'title', 'district', 'process']
+
+
+class MyLikeSerializer(ModelSerializer):
+    class Meta:
+        model = MyLike
+        fields = '__all__'
