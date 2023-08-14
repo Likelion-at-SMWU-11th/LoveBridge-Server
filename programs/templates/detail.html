@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css">
+    <title>Registration</title>
+</head>
+<body>
+    <p>신청한 프로그램 가져오기</p>
+    {% csrf_token %}
+        <p>pid : {{ program.id }} </p>
+        <p>제목 : {{ program.title }} </p>
+        <p>기관 : {{ program.agency }} </p>
+        <form action = "/posts/programs/{{ program.id }}/" method="POST">
+            <button id="{{ program.id }}" value="{{ program.id }}">
+                {%if request.user in program.registered_users.all%}
+                    <i id="heart" class="fas fa-heart"></i>
+                {%else%}
+                    <i id="heart" class="far fa-heart"></i>
+                {%endif%}
+            </button>
+        </form>
+
+        <div class='toast'>
+            <div id="message">{{ message }}</div>
+        </div>
+
+</body>
+</html>

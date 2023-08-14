@@ -49,9 +49,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # 생성한 앱
-    'posts',
     'accounts',
     'mypage',
+    'programs',
 
     'django.contrib.sites',
     'rest_framework',
