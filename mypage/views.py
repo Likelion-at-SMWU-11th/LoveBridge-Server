@@ -47,9 +47,9 @@ def get_my_programs(request):
 
 @api_view(['DELETE'])
 @require_http_methods(["DELETE"])
-def delete_my_program(request, apply_id):
+def delete_my_program(request, post_id):
     if request.method == 'DELETE':
-        my_program = MyProgram.objects.get(pk=apply_id)
+        my_program = MyProgram.objects.get(pk=post_id)
         my_program.delete()
         return HttpResponse(status=204)
 

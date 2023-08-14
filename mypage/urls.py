@@ -11,6 +11,6 @@ urlpatterns = [
     # path('',include(router.urls)),
     path('documents/', documents, name='documents'),
     path('myprograms/', get_my_programs, name='myprograms'),
-    path('myprograms/<int:apply_id>/', delete_my_program, name='delete-myprogram'),
+    path('myprograms/<int:post_id>/', delete_my_program, name='delete-myprogram'),
     path('mylike/', get_like_programs, name='like'),
 ]

@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 from .models import Document
 from programs.models import *
-from rest_framework import serializers
 
 
 class DocumentModelSerializer(ModelSerializer):

@@ -1,5 +1,3 @@
-import os
-import django
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from random import randint, sample
@@ -10,9 +8,6 @@ class Command(BaseCommand):
     help = 'Creates dummy data for the Program model'
 
     def handle(self, *args, **options):
-        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'love_bridge.settings')
-        django.setup()
-
         fake = Faker()
 
         Program.objects.all().delete()

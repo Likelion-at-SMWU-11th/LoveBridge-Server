@@ -6,11 +6,11 @@ from .views import *
 app_name = "programs"
 
 urlpatterns = [
-    path('list/', get_programs, name="programs"),
-    path('search/', search_programs, name='search'),
-    path('list/<int:pk>/', apply_program, name="registration"),
     path('popular/', get_popular, name="popular"),
     path('imminent/', get_imminent, name="imminent"),
+    path('list/', get_programs, name="programs"),
+    path('list/<int:post_id>/', apply_program, name="registration"),
+    path('search/', search_programs, name='search'),
     path('mylike/<int:post_id>/', press_heart, name="press_heart")
 ]
 
