@@ -50,8 +50,8 @@ INSTALLED_APPS = [
 
     # 생성한 앱
     'accounts',
-    'mypage',
     'programs',
+    'mypage',
 
     'django.contrib.sites',
     'rest_framework',

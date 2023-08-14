@@ -1,14 +1,11 @@
-from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
+from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse,JsonResponse
-import json
 from django.contrib.auth.decorators import login_required
 from rest_framework.viewsets import ModelViewSet
 from .models import *
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from datetime import date
-from accounts import views as accounts_views
 
 
 @api_view(['GET'])
@@ -17,7 +14,6 @@ def get_programs(request):
         programs = Program.objects.all()
         serializer = ProgramSerializer(programs, many=True)
         return Response(serializer.data)
-        # return render(request, 'programs.html', {'programs':programs})      # 프로그램 신청 버튼 눌렀을 때 테스트
 
 
 @api_view(['GET'])
