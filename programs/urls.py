@@ -3,13 +3,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .views import *
 
-app_name = "posts"
+app_name = "programs"
 
 urlpatterns = [
-    path('programs/', get_programs, name="programs"),
-    path('programs/<int:pk>/', post_programs, name="registration"),
+    path('list/', get_programs, name="programs"),
+    path('search/', search_programs, name='search'),
+    path('list/<int:pk>/', apply_program, name="registration"),
     path('popular/', get_popular, name="popular"),
     path('imminent/', get_imminent, name="imminent"),
+    path('mylike/<int:post_id>/', press_heart, name="press_heart")
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

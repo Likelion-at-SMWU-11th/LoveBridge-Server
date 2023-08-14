@@ -1,13 +1,22 @@
+import os
+import django
+from django.conf import settings
 from django.core.management.base import BaseCommand
-from random import randint
+from random import randint, sample
 from faker import Faker
-from ...models import Program, Category
+from ...models import *
 
 class Command(BaseCommand):
     help = 'Creates dummy data for the Program model'
 
     def handle(self, *args, **options):
+        os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'love_bridge.settings')
+        django.setup()
+
         fake = Faker()
+
+        Program.objects.all().delete()
+        MyProgram.objects.all().delete()
 
         categories = ['Category 1', 'Category 2', 'Category 3']
         for category_name in categories:
@@ -29,4 +38,19 @@ class Command(BaseCommand):
             selected_categories = Category.objects.order_by('?')[:2]
             program.category.set(selected_categories)
 
+        programs = Program.objects.all()
+        my_programs = sample(list(programs), 4)
+
+        for program in my_programs:
+            MyProgram.objects.create(
+                program = program,
+                process = fake.word()
+            )
+        
+        my_likes = sample(list(programs.filter(iflike=True)), 5)
+
+        for program in my_likes:
+            MyLike.objects.create(
+                program = program,
+            )
         self.stdout.write(self.style.SUCCESS('Dummy data created successfully'))
