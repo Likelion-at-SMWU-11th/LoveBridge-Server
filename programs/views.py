@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def get_programs(request):
     if request.method == 'GET':
         programs = Program.objects.all()
@@ -16,7 +16,7 @@ def get_programs(request):
         return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['POST', 'GET'])
 def search_programs(request):
     district = request.GET.get('district')  # 클라이언트가 요청한 지역 값
     category = request.GET.get('category')  # 클라이언트가 요청한 카테고리 값
@@ -39,7 +39,7 @@ def search_programs(request):
     return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def get_popular(request):
     if request.method == 'GET':
         top10 = Program.objects.all().order_by('-like')[:12]
@@ -47,7 +47,7 @@ def get_popular(request):
         return Response(serializer.data)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def get_imminent(request):
     if request.method == 'GET':
         top10 = Program.objects.order_by('deadline_yy', 'deadline_mm', 'deadline_dd')[:12]
@@ -65,7 +65,7 @@ def apply_program(request, post_id):
     MyProgram.objects.get_or_create(program=program)
 
 
-@api_view(['POST'])
+@api_view(['POST', 'GET'])
 def press_heart(request, post_id):
     program = get_object_or_404(Program, pk=post_id)
     if program.iflike:  # 이미 좋아요가 눌린 경우

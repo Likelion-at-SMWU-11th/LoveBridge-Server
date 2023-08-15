@@ -11,9 +11,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+from datetime import timedelta
 import os
 import json
+import sys
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -55,21 +56,7 @@ INSTALLED_APPS = [
 
     'django.contrib.sites',
     'rest_framework',
-
-    # 소셜 로그인
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    # 'allauth.socialaccount.providers.kakao',
-    # 'allauth.socialaccount.providers.naver',
-    # 'allauth.socialaccount.providers.google',
-]
-
-AUTHENTICATION_BACKENDS = [
-    # Needed to login by username in Django admin, regardless of `allauth`
-    'django.contrib.auth.backends.ModelBackend',
-    # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 SITE_ID = 1
@@ -91,6 +78,9 @@ SOCIAL_OUTH_CONFIG = {
     'GOOGLE_REDIRECT_URI': secrets['GOOGLE_REDIRECT_URI'],
     'GOOGLE_CLIENT_SECRET': secrets['GOOGLE_CLIENT_SECRET'],
 }
+
+AUTH_USER_MODEL = 'accounts.CustomUser'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -115,9 +105,6 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
-                # `allauth` needs this from django
-                'django.template.context_processors.request',
             ],
         },
     },
@@ -168,7 +155,7 @@ TIME_ZONE = 'Asia/Seoul'
 
 USE_I18N = True
 
-USE_TZ = False
+USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
