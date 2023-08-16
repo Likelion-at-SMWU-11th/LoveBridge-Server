@@ -5,6 +5,7 @@ from programs.models import *
 
 
 class MyDocumentSerializer(ModelSerializer):
+    user_id = serializers.CharField(source='queryset.email', read_only=True)
     class Meta:
         model = MyDocument
         fields = '__all__'

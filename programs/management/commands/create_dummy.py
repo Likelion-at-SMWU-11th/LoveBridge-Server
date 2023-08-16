@@ -3,12 +3,15 @@ from django.core.management.base import BaseCommand
 from random import randint, sample
 from faker import Faker
 from ...models import *
+import random
 
 class Command(BaseCommand):
     help = 'Creates dummy data for the Program model'
 
     def handle(self, *args, **options):
         fake = Faker()
+
+        number = [10, 15, 20, 30]
 
         Program.objects.all().delete()
         MyProgram.objects.all().delete()
@@ -28,6 +31,7 @@ class Command(BaseCommand):
                 deadline_dd = randint(1, 30),
                 like = randint(0, 100),
                 iflike = fake.boolean(),
+                applicant = random.choice(number)
             )
 
             selected_categories = Category.objects.order_by('?')[:2]

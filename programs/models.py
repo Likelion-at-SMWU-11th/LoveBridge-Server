@@ -14,6 +14,7 @@ class Program(models.Model):
     like = models.IntegerField(verbose_name="좋아요 개수", default=0)
     iflike = models.BooleanField(verbose_name="좋아요 여부", default=False)
     category = models.ManyToManyField('Category', verbose_name="카테고리", blank=True)
+    applicant = models.IntegerField(verbose_name='신청 가능 인원', default=15)
 
     def __str__(self):
         return str(self.title)

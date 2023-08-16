@@ -67,7 +67,7 @@ def get_kakao_user_info(request):
         age_range = user_info_json['kakao_account']['age_range'],
         gender = user_info_json['kakao_account']['gender']
     )
-    return Response(user_info_res.text)
+    return redirect('home')
 
 # def kakao_logout(access_token):
 #     logout_url = "https://kapi.kakao.com/v1/user/logout"
@@ -127,7 +127,7 @@ def get_naver_user_info(reqeust):
         age_range = user_info_json['response']['age'],
         gender = user_info_json['response']['gender']
     )
-    return Response(user_info_res.text)
+    return redirect('home')
 
 
 # @api_view(['GET'])
@@ -195,4 +195,4 @@ def get_google_user_info(reqeust):
         user_id = user_info_json['id'],
         email = user_info_json['email'],
     )
-    return Response(user_info_res.text)
+    return redirect('home')

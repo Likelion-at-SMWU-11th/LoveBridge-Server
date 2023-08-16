@@ -57,6 +57,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+
+    # 연동
+    'corsheaders',
 ]
 
 SITE_ID = 1
@@ -90,6 +93,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    # 연동
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'love_bridge.urls'
@@ -167,3 +173,18 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# 연동
+CORS_ORIGIN_WHITELIST = ('http://127.0.0.1:3000', 'http://localhost:3000')
+
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]

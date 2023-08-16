@@ -7,7 +7,7 @@ from accounts import views as accounts_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', accounts_views.home),
+    path('', accounts_views.home, name='home'),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('programs/', include('programs.urls', namespace='programs')),
     path('mypage/', include('mypage.urls')),

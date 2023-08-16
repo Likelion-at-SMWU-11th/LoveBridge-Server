@@ -23,6 +23,7 @@ class CustomUserManager(BaseUserManager):
 
         return self._create_user(user_id, social_type, name, email, age_range, gender, password, **extra_fields)
 
+
 class CustomUser(AbstractBaseUser):
     user_id = models.CharField(verbose_name='소셜사용자_id', max_length=100, primary_key=True, unique=True)
     social_type = models.CharField(verbose_name='소셜 타입', max_length=20)
