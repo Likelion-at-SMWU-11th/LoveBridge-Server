@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from rest_framework.viewsets import ModelViewSet
 from rest_framework.response import Response
 from django.http import HttpResponse
 from django.views.decorators.http import require_http_methods
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .forms import DocumentForm
+from rest_framework import viewsets
 from .models import *
 from programs.models import *
 from .serializers import *
@@ -16,25 +15,9 @@ def home(request):
     return render(request, 'index.html')
 
 
-class DocumentModelViewSet(ModelViewSet):
-    queryset=Document.objects.all()
-    serializer_class=DocumentModelSerializer
-
-
-def documents(request):  # 수정 필요
-    if request.method == 'POST':
-        file = request.FILES.get('file')
-        document = Document(
-            imgfile=file,
-        )
-        document.save()
-        return redirect('/mypage/programs')
-    else:
-        documentForm = DocumentForm
-        context = {
-            'documentForm': documentForm,
-        }
-    return render(request, 'documents.html', context)
+class MyDocumentViewset(viewsets.ModelViewSet):
+    queryset = MyDocument.objects.all()
+    serializer_class = MyDocumentSerializer
 
 
 @api_view(['GET'])
