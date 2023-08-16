@@ -1,13 +1,13 @@
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
-from .models import Document
+from .models import *
 from programs.models import *
 
 
-class DocumentModelSerializer(ModelSerializer):
+class MyDocumentSerializer(ModelSerializer):
     class Meta:
-        model = Document
-        fields='__all__'
+        model = MyDocument
+        fields = '__all__'
 
 
 class MyProgramSerializer(ModelSerializer):
