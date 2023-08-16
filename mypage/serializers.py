@@ -16,7 +16,7 @@ class MyProgramSerializer(ModelSerializer):
 
     class Meta:
         model = MyProgram
-        fields = [f'title', 'district', 'process']
+        fields = ['id', 'title', 'district', 'process']
 
 
 class MyLikeSerializer(ModelSerializer):
