@@ -11,42 +11,67 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         fake = Faker()
 
-        number = [10, 15, 20, 30]
-
         Program.objects.all().delete()
         MyProgram.objects.all().delete()
 
-        categories = ['Category 1', 'Category 2', 'Category 3']
-        for category_name in categories:
-            Category.objects.get_or_create(detail_category=category_name)
+        title = ['꽃꽂이 체험반', '비누만들기 체험반', '필라테스 체험반', '필라테스 성인반', '수영 성인반', '바이올린 체험반', '플룻 체험반', '첼로 체험반', 
+                '피아노 체험반', '줄넘기 청소년반', '태권도 청소년반', '바리스타 자격증', '바리스타 자격증', '바리스타 자격증', '바리스타 자격증', '댄스 자격증',
+                '바리스타 자격증', '캘리스라피자격증', '영어 자격증', '영어 자격증', '중국어 자격증', '야외 운동 심리치료', '실내 운동 심리치료', '클래식과 함께하는 심리치료',
+                '재즈와 함께하는 심리치료', '음악감상표현 심리치료', '꽃꽂이 체험', '카페 창업', '카페 창업', '카페 창업']
+        
+        categories = [['취미', '체험'], ['취미', '체험'], ['취미', '운동'], ['취미', '운동'], ['취미', '운동'], ['체험', '운동'], ['체험', '음악'], ['체험', '음악'],
+                    ['체험', '음악'], ['체험', '음악'], ['체험', '운동'], ['체험', '운동'], ['자격증', '초급'], ['자격증', '초급'], ['자격증', '초급'], ['자격증', '초급'],
+                    ['자격증', '초급'], ['자격증', '초급'], ['자격증', '중급'], ['자격증', '중급'], ['자격증', '중급'], ['운동', '심리'], ['운동', '심리'], ['음악', '심리'],
+                    ['음악', '심리'], ['음악', '심리'], ['취미', '체험'], ['창업', '자격증'], ['창업', '자격증'], ['창업', '자격증']]
+        
+        district = ['서울특별시 강남구', '서울특별시 도봉구', '서울특별시 중랑구', '서울특별시 서초구', '서울특별시 서초구', '서울특별시 영등포구', '서울특별시 노원구', '서울특별시 강남구',
+                    '대구광역시 달서구', '부산광역시 해운대구', '대전광역시 동구', '대전광역시 북구', '부산광역시 북구', '인천광역시 부평구', '인천광역시 미추홀구', '서울특별시 은평구',
+                    '서울특별시 종로구', '서울특별시 광진구', '서울특별시 중랑구', '서울특별시 광진구', '서울특별시 중랑구', '서울특별시 서초구', '대구광역시 북구', '부산광역시 북구',
+                    '서울특별시 도봉구', '서울특별시 영등포구', '서울특별시 용산구', '서울특별시 은평구', '서울특별시 서초구', '서울특별시 종로구']
+        
+        agency = ['행복한가족복지관', '미소나눔복지관', '다함께행복센터', '희망나눔복지원', '따뜻한마음복지관', '고마운도움복지관', '사랑나눔복지센터', '사랑의복지관',
+                '함께하는복지관', '행복한나눔복지관', '미래희망복지관', '열린마음복지센터', '행복한일상복지관', '믿음과희망의복지관', '자립과행복복지관', '소망복지관',
+                '따뜻한사랑복지관', '미소복지관', '행복복지센터', '씨앗복지관', '새싹복지관', '함께하는복지관', '사랑의복지관', '행복한일상복지관',
+                '미소와행복복지관', '소망복지관', '드림복지관', '자립과행복복지관', '힘찬일상복지원', '무지개복지관']
+        
+        year = [2023, 2023, 2023, 2023, 2023, 2023, 2023, 2023,
+                2023, 2023, 2023, 2024, 2023, 2024, 2023, 2023,
+                2023, 2023, 2023, 2023, 2023, 2024, 2023, 2024,
+                2023, 2023, 2023, 2023, 2023, 2023]
 
-        for _ in range(30):
+        month = [9, 10, 11, 9, 8, 12, 8, 11, 
+                9, 9, 9, 1, 9, 1, 8, 8,
+                8, 8, 8, 8, 9, 2, 11, 1,
+                12, 9, 9, 10, 11, 12]
+        
+        number = [10, 15, 20, 30]
+
+        for i in range(30):
             program = Program.objects.create(
                 image = fake.image_url(),
-                title = fake.word(),
-                district = fake.city(),
-                agency = fake.company(),
-                deadline_yy = randint(2023, 2024),
-                deadline_mm = randint(1, 12),
+                title = title[i],
+                district = district[i],
+                agency = agency[i],
+                deadline_yy = year[i],
+                deadline_mm = month[i],
                 deadline_dd = randint(1, 30),
                 like = randint(0, 100),
-                iflike = fake.boolean(),
-                applicant = random.choice(number)
+                iflike = False,
+                category1 = categories[i][0],
+                category2 = categories[i][1],
+                applicant = random.choice(number),
             )
-
-            selected_categories = Category.objects.order_by('?')[:2]
-            program.category.set(selected_categories)
-
+        
         programs = Program.objects.all()
         my_programs = sample(list(programs), 4)
 
         for program in my_programs:
             MyProgram.objects.create(
                 program = program,
-                process = fake.word()
+                process = '서류 전달'
             )
         
-        my_likes = sample(list(programs.filter(iflike=True)), 5)
+        my_likes = sample(list(programs), 5)
 
         for program in my_likes:
             MyLike.objects.create(

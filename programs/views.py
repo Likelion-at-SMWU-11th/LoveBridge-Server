@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse,JsonResponse
 from django.contrib.auth.decorators import login_required
 from rest_framework.viewsets import ModelViewSet
+from django.db.models import Q
 from .models import *
 from .serializers import *
 from rest_framework.response import Response
@@ -11,16 +12,16 @@ from rest_framework.decorators import api_view
 @api_view(['GET', 'POST'])
 def get_programs(request):
     if request.method == 'GET':
-        programs = Program.objects.all()
+        programs = Program.objects.all().order_by('-id')
         serializer = ProgramSerializer(programs, many=True)
         return Response(serializer.data)
 
 
 @api_view(['POST', 'GET'])
 def search_programs(request):
-    district = request.GET.get('district')  # 클라이언트가 요청한 지역 값
-    category = request.GET.get('category')  # 클라이언트가 요청한 카테고리 값
-    sorting = request.GET.get('sort')  # 클라이언트가 요청한 검색정렬 값
+    district = request.GET.get('district')
+    category = request.GET.get('category')
+    sorting = request.GET.get('sort')
 
     programs = Program.objects.all().order_by('-id')
 
@@ -28,11 +29,11 @@ def search_programs(request):
         programs = programs.filter(district=district)
     
     if category:
-        programs = programs.filter(category=category)
+        programs = programs.filter(Q(category1__icontains=category) | Q(category2__icontains=category))
 
-    if sorting == 'popular':
+    if sorting == '인기순':
         programs = programs.order_by('-like')
-    elif sorting == 'deadline':
+    elif sorting == '마감순':
         programs = programs.order_by('deadline_yy', 'deadline_mm', 'deadline_dd')
 
     serializer = ProgramSerializer(programs, many=True)
@@ -42,7 +43,7 @@ def search_programs(request):
 @api_view(['GET', 'POST'])
 def get_popular(request):
     if request.method == 'GET':
-        top10 = Program.objects.all().order_by('-like')[:12]
+        top10 = Program.objects.all().order_by('-like')[:10]
         serializer = RecommendSerializer(top10, many=True)
         return Response(serializer.data)
 
@@ -50,7 +51,7 @@ def get_popular(request):
 @api_view(['GET', 'POST'])
 def get_imminent(request):
     if request.method == 'GET':
-        top10 = Program.objects.order_by('deadline_yy', 'deadline_mm', 'deadline_dd')[:12]
+        top10 = Program.objects.order_by('deadline_yy', 'deadline_mm', 'deadline_dd')[:10]
         serializer = RecommendSerializer(top10, many=True)
         return Response(serializer.data)
 
@@ -63,6 +64,7 @@ def apply_program(request, post_id):
 
     program = get_object_or_404(Program, pk=post_id)
     MyProgram.objects.get_or_create(program=program)
+    return Response({"message": "succeed"})
 
 
 @api_view(['POST', 'GET'])
