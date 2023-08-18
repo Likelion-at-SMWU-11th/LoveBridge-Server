@@ -1,6 +1,7 @@
 import os
 from django.db import models
 from accounts.models import *
+from programs.models import *
 
 class MyDocument(models.Model):
     # user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user', default='2966447342')
@@ -24,3 +25,19 @@ class MyDocument(models.Model):
 
     def str(self):
         return f'{self.file1} - {self.file2} - {self.file3} - {self.file4}'
+
+
+class MyProgram(models.Model):
+    program = models.ForeignKey(Program, on_delete=models.CASCADE)
+    # process = models.CharField(verbose_name="진행 상태", max_length=6)
+    process = '서류전달'
+    
+    def str(self):
+        return f'{self.program} - {self.process}'
+
+
+class MyLike(models.Model):
+    program = models.ForeignKey(Program, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.program)

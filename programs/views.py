@@ -5,6 +5,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
 from django.db.models import Q
 from .models import *
+from mypage.models import *
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
