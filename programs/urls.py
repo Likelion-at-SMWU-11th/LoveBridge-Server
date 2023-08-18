@@ -11,7 +11,7 @@ urlpatterns = [
     path('list/', get_programs, name="programs"),
     path('list/<int:post_id>/', apply_program, name="registration"),
     path('search/', search_programs, name='search'),
-    path('mylike/<int:post_id>/', press_heart, name="press_heart")
+    path('mylike/<int:post_id>/', press_heart, name="press_heart"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

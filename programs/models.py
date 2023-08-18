@@ -23,14 +23,15 @@ class Program(models.Model):
 
 class MyProgram(models.Model):
     program = models.ForeignKey(Program, on_delete=models.CASCADE)
-    process = models.CharField(verbose_name="진행 상태", max_length=6)
+    # process = models.CharField(verbose_name="진행 상태", max_length=6)
+    process = '서류전달'
     
     def __str__(self):
-        return str(self.program.title)
+        return f'{self.program} - {self.process}'
 
 
 class MyLike(models.Model):
     program = models.ForeignKey(Program, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.program.title)
+        return str(self.program)
