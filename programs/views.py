@@ -10,7 +10,6 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 import json
 
-
 @api_view(['GET', 'POST'])
 def get_programs(request):
     if request.method == 'GET':
@@ -87,3 +86,4 @@ def press_heart(request, post_id):
         MyLike.objects.create(program=program)
     program.save()
     return Response({"좋아요 개수": program.like, "좋아요 눌렀는지": program.iflike})
+

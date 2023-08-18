@@ -70,7 +70,7 @@ class Command(BaseCommand):
                                 deadline_mm = month[i],
                                 deadline_dd = day[i],
                                 phone = phone[i],
-                                like = randint(0, 150),
+                                like = randint(0, 100),
                                 iflike = False,
                                 category1 = categories[i][0],
                                 category2 = categories[i][1],

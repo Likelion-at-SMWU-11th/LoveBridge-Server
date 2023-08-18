@@ -26,7 +26,7 @@ class MyProgram(models.Model):
     # process = models.CharField(verbose_name="진행 상태", max_length=6)
     process = '서류전달'
     
-    def __str__(self):
+    def str(self):
         return f'{self.program} - {self.process}'
 
 
