@@ -2,10 +2,11 @@ from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
 from .models import *
 from programs.models import *
+from programs.serializers import *
 
 
 class MyDocumentSerializer(ModelSerializer):
-    user_id = serializers.CharField(source='queryset.email', read_only=True)
+    # user_id = serializers.CharField(source='queryset.email', read_only=True)
     class Meta:
         model = MyDocument
         fields = '__all__'
@@ -21,6 +22,8 @@ class MyProgramSerializer(ModelSerializer):
 
 
 class MyLikeSerializer(ModelSerializer):
+    program = ProgramSerializer()
+
     class Meta:
         model = MyLike
-        fields = '__all__'
+        fields = ['program']

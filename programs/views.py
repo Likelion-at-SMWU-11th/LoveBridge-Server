@@ -2,11 +2,13 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import HttpResponse,JsonResponse
 from django.contrib.auth.decorators import login_required
 from rest_framework.viewsets import ModelViewSet
+from rest_framework import status
 from django.db.models import Q
 from .models import *
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+import json
 
 
 @api_view(['GET', 'POST'])
@@ -19,21 +21,26 @@ def get_programs(request):
 
 @api_view(['POST', 'GET'])
 def search_programs(request):
-    district = request.GET.get('district')
-    category = request.GET.get('category')
-    sorting = request.GET.get('sort')
+    data = json.loads(request.body)
+    district = data.get('district')
+    category = data.get('category')
+    sorting = data.get('sort')
 
     programs = Program.objects.all().order_by('-id')
 
-    if district:
-        programs = programs.filter(district=district)
+    if district == ' ':
+        pass
+    elif district:
+        programs = programs.filter(district__icontains=district)
     
-    if category:
+    if category == '선택 없음':
+        pass
+    elif category:
         programs = programs.filter(Q(category1__icontains=category) | Q(category2__icontains=category))
 
     if sorting == '인기순':
         programs = programs.order_by('-like')
-    elif sorting == '마감순':
+    elif sorting == '마감임박순':
         programs = programs.order_by('deadline_yy', 'deadline_mm', 'deadline_dd')
 
     serializer = ProgramSerializer(programs, many=True)
