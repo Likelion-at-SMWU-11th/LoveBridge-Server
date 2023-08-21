@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from accounts.models import *
 
 
 class Program(models.Model):
@@ -20,3 +19,19 @@ class Program(models.Model):
 
     def __str__(self):
         return str(self.title)
+
+
+class MyProgram(models.Model):
+    program = models.ForeignKey(Program, on_delete=models.CASCADE)
+    # process = models.CharField(verbose_name="진행 상태", max_length=6)
+    process = '서류전달'
+    
+    def str(self):
+        return f'{self.program} - {self.process}'
+
+
+class MyLike(models.Model):
+    program = models.ForeignKey(Program, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.program)
